@@ -149,22 +149,22 @@ export default function SignUp({ navigation: { navigate } }) {
         } else {
             alert('Senha de bom tamanho')
         }
-            if (checked === 'cpf') {
-                const validacao = validaCPF(codigo)
-                if (!validacao) {
-                    alert('CPF inválido')
-                    return
-                }
-            } else if (checked === 'cnpj') {
-                const validacao = validaCNPJ(codigo)
-                if (!validacao) {
-                    alert('CNPJ inválido')
-                    return
-                }
-            } else {
-                alert('Nome de checked é inválido')
+        if (checked === 'cpf') {
+            const validacao = validaCPF(codigo)
+            if (!validacao) {
+                alert('CPF inválido')
                 return
             }
+        } else if (checked === 'cnpj') {
+            const validacao = validaCNPJ(codigo)
+            if (!validacao) {
+                alert('CNPJ inválido')
+                return
+            }
+        } else {
+            alert('Nome de checked é inválido')
+            return
+        }
         console.log(email)
         await createUserWithEmailAndPassword(autht, email, password).then((userCredential) => {
             setLoading(true)
@@ -199,6 +199,19 @@ export default function SignUp({ navigation: { navigate } }) {
             });
     }
 
+    function validateAddress(user) {
+        if (
+            !user.rua ||
+            !user.bairro ||
+            !user.cidade ||
+            !user.estado
+        ) {
+            alert("Preencha todos os dados do endereço");
+            return false;
+        }
+        return true;
+    }
+
     async function getNewUserData(user, accountType) {
         const newUser = {
             uid: user.uid,
@@ -215,11 +228,16 @@ export default function SignUp({ navigation: { navigate } }) {
             nrcartao: '',
         }
 
-        if (accountType === 'empreendedor'){
+        if (accountType === 'empreendedor') {
             newUser.descricao = ''
         } else if (accountType === 'entregador') {
             newUser.placa = ''
             newUser.isavailable = ''
+        }
+
+        if (!validateAddress(newUser)) {
+            alert("Preencha todos os campos do endereço");
+            return;
         }
 
         console.log(accountType);
@@ -328,9 +346,9 @@ export default function SignUp({ navigation: { navigate } }) {
                             </TouchableOpacity>
                         </ScrollView>}
                 </View>
-                <TouchableOpacity style={{ marginBottom: 35, marginTop: 2}} onPress={() => navigate('SignUp')}>
-                <Text style={{  color: '#DBE619'  }}>Já possui conta? Clique aqui</Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={{ marginBottom: 35, marginTop: 2 }} onPress={() => navigate('SignUp')}>
+                    <Text style={{ color: '#DBE619' }}>Já possui conta? Clique aqui</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     )
