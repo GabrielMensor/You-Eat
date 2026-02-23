@@ -1,19 +1,14 @@
-import { TextInput, StyleSheet } from "react-native"
+import { TextInput, TextInputProps, StyleSheet } from "react-native"
 import { colors } from "@/constants/colors"
 import React from "react"
 
-type Props = {
-    placeholder?: string
-    secureTextEntry?: boolean
-}
+type InputProps = TextInputProps
 
-export default function Input({ placeholder, secureTextEntry }: Props) {
+export default function Input({ ...props}: InputProps) {
     return (
         <TextInput
-        placeholder={placeholder}
-        placeholderTextColor={colors.placeholder}
-        secureTextEntry={secureTextEntry}
         style={styles.input}
+        {...props}
         />
     )
 }
