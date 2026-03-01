@@ -8,6 +8,7 @@ export default function Input({ ...props}: InputProps) {
     return (
         <TextInput
         style={styles.input}
+        placeholderTextColor={"#b1b8c2"}
         {...props}
         />
     )

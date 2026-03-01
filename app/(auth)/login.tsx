@@ -5,12 +5,13 @@ import Input from "@/components/ui/Input"
 import TextLink from "@/components/ui/TextLink";
 import { colors } from "@/constants/colors"
 import { useState } from "react";
-import React from "react"
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
+    const { login } = useAuth()
 
     function handleLogin() {
         if (!email || !password) {
@@ -25,6 +26,7 @@ export default function Login() {
 
         setError('')
         console.log('Login válido')
+        Login(email, "cliente")
     }
     return (
         <Screen>
@@ -44,7 +46,7 @@ export default function Login() {
 
                 {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
 
-                <Button title="Entrar" />
+                <Button title="Entrar" onPress={handleLogin} />
 
                 <TextLink href="/(auth)/register">
                     Não possui conta? Crie agora!
